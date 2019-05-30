@@ -74,6 +74,19 @@ function calculateLTDPrice(product, employee, selectedOptions) {
   return price
 }
 
+function calculateCommuterPrice(product) {
+
+  let price
+  
+  price = product.costs.reduce((total, cost) => {
+
+    return total + cost.price
+  }, 0)
+  
+  return price
+}
+
+
 export function calculateProductPrice(product, employee, selectedOptions) {
   let price
   let employerContribution
@@ -90,7 +103,12 @@ export function calculateProductPrice(product, employee, selectedOptions) {
       price = calculateLTDPrice(product, employee, selectedOptions)
       employerContribution = getEmployerContribution(product.employerContribution, price)
       return formatPrice(price - employerContribution)
-    default:
+    case 'commuter':
+      price = calculateCommuterPrice(product)
+      employerContribution = getEmployerContribution(product.employerContribution, price)
+      return formatPrice(price - employerContribution)
+
+      default:
       throw new Error(`Unknown product type: ${product.type}`)
   }
 }

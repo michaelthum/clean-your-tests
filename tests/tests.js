@@ -1,5 +1,5 @@
 import { calculateProductPrice } from '../pricing'
-import { medical, voluntaryLife, longTermDisability } from './products'
+import { medical, voluntaryLife, longTermDisability, commuter } from './products'
 import { employee } from './employee'
 import { expect } from 'chai'
 import { describe, it } from 'mocha'
@@ -58,6 +58,16 @@ describe('calculateProductPrice', () => {
     expect(price).to.equal(22.04)
   })
 
+  it('returns the price for a commuter', () => {
+    const selectedOptions = {
+      familyMembersToCover: ['ee']
+    }
+    const price = calculateProductPrice(commuter, employee, selectedOptions)
+
+    expect(price).to.equal(259.75)
+    
+})  
+   
   it('throws an error on unknown product type', () => {
     const unknownProduct = { type: 'vision' }
 
